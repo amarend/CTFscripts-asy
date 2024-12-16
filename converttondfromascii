@@ -1,0 +1,45 @@
+def numbers_to_ascii(filename):
+    """Converts numbers in the file to ASCII characters."""
+    with open(filename, 'r') as file:
+        content = file.read()
+
+        # Split by commas or newlines and filter out empty strings
+        numbers = content.replace(',', '\n').splitlines()
+        numbers = [num.strip() for num in numbers if num.strip()]
+
+        # Convert numbers to ASCII characters
+        ascii_chars = []
+        for num in numbers:
+            try:
+                ascii_chars.append(chr(int(num)))  # Convert number to ASCII char
+            except ValueError:
+                print(f"Invalid number: {num}, skipping.")
+
+        return ''.join(ascii_chars)
+
+def ascii_to_numbers(text):
+    """Converts ASCII characters to their corresponding numbers."""
+    return ', '.join(str(ord(char)) for char in text)
+
+def process_file(input_file, convert_to_ascii=True):
+    """Process the input file either converting numbers to ASCII or vice versa."""
+    if convert_to_ascii:
+        print("Converting numbers to ASCII:")
+        result = numbers_to_ascii(input_file)
+        print(result)
+    else:
+        print("Converting ASCII to numbers:")
+        with open(input_file, 'r') as file:
+            content = file.read()
+        result = ascii_to_numbers(content)
+        print(result)
+
+# Example usage:
+# Convert numbers to ASCII (input.txt contains numbers separated by newlines or commas)
+input_file = 'input.txt'
+
+# To convert numbers to ASCII
+process_file(input_file, convert_to_ascii=True)
+
+# To convert ASCII characters back to numbers
+# process_file(input_file, convert_to_ascii=False)
